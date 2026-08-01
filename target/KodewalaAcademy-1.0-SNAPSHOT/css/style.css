@@ -1,0 +1,128 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #0D1B3E, #1A237E);
+    color: white;
+    min-height: 100vh;
+}
+
+.header {
+    background-color: #0D1B3E;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.header h1 {
+    color: #FBC02D;
+    margin: 0;
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+.stats-badge {
+    background: rgba(251, 192, 45, 0.1);
+    color: #FBC02D;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.student-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.profile-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    overflow: hidden;
+}
+
+.profile-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.student-info h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.student-id {
+    color: #FBC02D;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 4px;
+}
+
+.status-badge {
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.status-pending { background: rgba(251, 192, 45, 0.2); color: #FBC02D; }
+.status-approved { background: rgba(76, 175, 80, 0.2); color: #4CAF50; }
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.btn-reject {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.btn-approve {
+    background: #FBC02D;
+    color: #0D1B3E;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
