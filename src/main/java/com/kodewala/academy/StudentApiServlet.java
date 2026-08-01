@@ -40,15 +40,15 @@ public class StudentApiServlet extends HttpServlet {
             // Save to Firebase via Server
             Firestore db = FirestoreClient.getFirestore();
             Map<String, Object> data = new HashMap<>();
-            data.add("name", student.getName());
-            data.add("phone", student.getPhone());
-            data.add("email", student.getEmail());
-            data.add("studentId", student.getStudentId());
-            data.add("batchNumber", student.getBatchNumber());
-            data.add("qualification", student.getQualification());
-            data.add("paymentMethod", student.getPaymentMethod());
-            data.add("status", "Pending");
-            data.add("timestamp", System.currentTimeMillis());
+            data.put("name", student.getName());
+            data.put("phone", student.getPhone());
+            data.put("email", student.getEmail());
+            data.put("studentId", student.getStudentId());
+            data.put("batchNumber", student.getBatchNumber());
+            data.put("qualification", student.getQualification());
+            data.put("paymentMethod", student.getPaymentMethod());
+            data.put("status", "Pending");
+            data.put("timestamp", System.currentTimeMillis());
 
             db.collection("admissions").add(data).get();
             

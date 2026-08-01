@@ -14,6 +14,7 @@ import com.google.cloud.firestore.WriteResult;
 import javax.servlet.ServletContext;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -63,6 +64,9 @@ public class FirebaseService {
             s.setPaymentMethod(doc.getString("paymentMethod"));
             s.setImageUrl(doc.getString("imageUrl"));
             s.setStatus(doc.getString("status"));
+            s.setZoomLink(doc.getString("zoomLink"));
+            s.setZoomRecordingUrl(doc.getString("zoomRecordingUrl"));
+            s.setTimestamp(doc.contains("timestamp") ? doc.getLong("timestamp") : 0L);
             students.add(s);
         }
         return students;
@@ -71,6 +75,16 @@ public class FirebaseService {
     public static void updateStatus(String docId, String newStatus) throws ExecutionException, InterruptedException {
         if (db != null) {
             db.collection("admissions").document(docId).update("status", newStatus).get();
+        }
+    }
+
+    public static void updateZoomDetails(String docId, String zoomLink, String zoomRecordingUrl) throws ExecutionException, InterruptedException {
+        if (db != null) {
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("zoomLink", zoomLink);
+            updates.put("zoomRecordingUrl", zoomRecordingUrl);
+            updates.put("status", "Approved"); // Auto approve when zoom details are provided
+            db.collection("admissions").document(docId).update(updates).get();
         }
     }
 

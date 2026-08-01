@@ -4,14 +4,26 @@
     <title>Kodewala Academy Login</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(rgba(13, 27, 62, 0.85), rgba(26, 35, 126, 0.85)), url('images/kodewala.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            min-height: 100vh;
+        }
         .login-container {
             max-width: 400px;
             margin: 100px auto;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(13, 27, 62, 0.9);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 40px;
             text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
         .input-group {
             margin-bottom: 20px;
@@ -49,7 +61,8 @@
     </div>
 
     <div class="login-container">
-        <h2 style="color: white; margin-bottom: 30px;">Admin Login</h2>
+        <img src="images/logo.png" style="width: 80px; margin-bottom: 10px;" alt="Logo">
+        <h2 style="color: white; margin-bottom: 30px; font-size: 22px;">Kodewala Admin Login</h2>
 
         <% if (request.getAttribute("error") != null) { %>
             <div class="error-msg"><%= request.getAttribute("error") %></div>

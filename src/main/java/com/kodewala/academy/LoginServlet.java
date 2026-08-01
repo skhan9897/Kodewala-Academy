@@ -11,25 +11,35 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     
-    // Default Credentials
-    private static final String ADMIN_ID = "admin";
-    private static final String ADMIN_PASSWORD = "kodewala@admin";
+    // Correct Credentials
+    private static final String AUTH_ID = "Kodewala1234";
+    private static final String AUTH_PASS = "Admin123";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        request.getRequestDispatcher("/login.jsp").forward(request, response);
+        HttpSession session = request.getSession(false);
+        if (session != null && session.getAttribute("user") != null) {
+            response.sendRedirect("admin");
+        } else {
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        String adminId = request.getParameter("adminId");
-        String password = request.getParameter("password");
+        
+        // These names MUST match the 'name' attribute in login.jsp
+        String inputId = request.getParameter("adminId");
+        String inputPass = request.getParameter("password");
 
-        if (ADMIN_ID.equals(adminId) && ADMIN_PASSWORD.equals(password)) {
-            HttpSession session = request.getSession();
-            session.setAttribute("user", adminId);
+        if (inputId != null) inputId = inputId.trim();
+        if (inputPass != null) inputPass = inputPass.trim();
+
+        if (AUTH_ID.equalsIgnoreCase(inputId) && AUTH_PASS.equals(inputPass)) {
+            HttpSession session = request.getSession(true);
+            session.setAttribute("user", AUTH_ID);
             response.sendRedirect("admin");
         } else {
             request.setAttribute("error", "Invalid Admin ID or Password!");

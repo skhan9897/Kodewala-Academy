@@ -16,6 +16,7 @@ public class AdminServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         FirebaseService.initialize(getServletContext());
+        DatabaseSetup.createTables(); // Creates the MySQL table if it doesn't exist
     }
     
     @Override
@@ -56,6 +57,10 @@ public class AdminServlet extends HttpServlet {
                 return;
             } else if ("approve".equals(action)) {
                 FirebaseService.updateStatus(docId, "Approved");
+            } else if ("updateZoom".equals(action)) {
+                String zoomLink = request.getParameter("zoomLink");
+                String zoomRecordingUrl = request.getParameter("zoomRecordingUrl");
+                FirebaseService.updateZoomDetails(docId, zoomLink, zoomRecordingUrl);
             } else if ("reject".equals(action)) {
                 FirebaseService.updateStatus(docId, "Rejected");
             } else if ("delete".equals(action)) {
