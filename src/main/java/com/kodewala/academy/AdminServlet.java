@@ -1,6 +1,8 @@
 package com.kodewala.academy;
 
 import com.kodewala.academy.model.Student;
+import com.kodewala.academy.model.Placement;
+import com.kodewala.academy.model.Batch;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,7 +32,13 @@ public class AdminServlet extends HttpServlet {
 
         try {
             List<Student> students = FirebaseService.getAllStudents();
+            List<Placement> placements = FirebaseService.getAllPlacements();
+            List<Batch> batches = FirebaseService.getAllBatches();
+            
             request.setAttribute("students", students);
+            request.setAttribute("placements", placements);
+            request.setAttribute("batches", batches);
+
             request.getRequestDispatcher("/admin.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,6 +65,8 @@ public class AdminServlet extends HttpServlet {
                 return;
             } else if ("approve".equals(action)) {
                 FirebaseService.updateStatus(docId, "Approved");
+            } else if ("verifyPayment".equals(action)) {
+                FirebaseService.verifyPayment(docId, "Paid");
             } else if ("updateZoom".equals(action)) {
                 String zoomLink = request.getParameter("zoomLink");
                 String zoomRecordingUrl = request.getParameter("zoomRecordingUrl");
@@ -65,6 +75,25 @@ public class AdminServlet extends HttpServlet {
                 FirebaseService.updateStatus(docId, "Rejected");
             } else if ("delete".equals(action)) {
                 FirebaseService.deleteStudent(docId);
+            } else if ("addPlacement".equals(action)) {
+                Placement p = new Placement();
+                p.setName(request.getParameter("name"));
+                p.setCtc(request.getParameter("ctc"));
+                p.setRole(request.getParameter("role"));
+                p.setEducation(request.getParameter("education"));
+                p.setImageUrl(request.getParameter("imageUrl"));
+                p.setHighest("on".equals(request.getParameter("isHighest")));
+                FirebaseService.addPlacement(p);
+            } else if ("deletePlacement".equals(action)) {
+                FirebaseService.deletePlacement(request.getParameter("id"));
+            } else if ("addBatch".equals(action)) {
+                Batch b = new Batch();
+                b.setBatchName(request.getParameter("batchName"));
+                b.setZoomLink(request.getParameter("zoomLink"));
+                b.setDescription(request.getParameter("description"));
+                FirebaseService.addBatch(b);
+            } else if ("deleteBatch".equals(action)) {
+                FirebaseService.deleteBatch(request.getParameter("id"));
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -11,13 +11,14 @@ public class Student {
     private String paymentMethod;
     private String imageUrl;
     private String status;
+    private String paymentStatus;
     private String zoomLink;
     private String zoomRecordingUrl;
     private long timestamp;
 
     public Student() {}
 
-    public Student(String id, String studentId, String batchNumber, String name, String phone, String email, String qualification, String paymentMethod, String imageUrl, String status, String zoomLink, String zoomRecordingUrl, long timestamp) {
+    public Student(String id, String studentId, String batchNumber, String name, String phone, String email, String qualification, String paymentMethod, String imageUrl, String status, String paymentStatus, String zoomLink, String zoomRecordingUrl, long timestamp) {
         this.id = id;
         this.studentId = studentId;
         this.batchNumber = batchNumber;
@@ -28,6 +29,7 @@ public class Student {
         this.paymentMethod = paymentMethod;
         this.imageUrl = imageUrl;
         this.status = status;
+        this.paymentStatus = paymentStatus;
         this.zoomLink = zoomLink;
         this.zoomRecordingUrl = zoomRecordingUrl;
         this.timestamp = timestamp;
@@ -54,6 +56,8 @@ public class Student {
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+    public String getPaymentStatus() { return paymentStatus; }
+    public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
     public String getZoomLink() { return zoomLink; }
     public void setZoomLink(String zoomLink) { this.zoomLink = zoomLink; }
     public String getZoomRecordingUrl() { return zoomRecordingUrl; }

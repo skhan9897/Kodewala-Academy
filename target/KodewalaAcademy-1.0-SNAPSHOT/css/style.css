@@ -123,3 +123,10 @@ body {
 
 .status-pending { background: rgba(251, 192, 45, 0.2); color: #FBC02D; }
 .status-approved { background: rgba(76, 175, 80, 0.2); color: #4CAF50; }
+.status-paid { background: rgba(33, 150, 243, 0.2); color: #2196F3; }
+.status-awaiting { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6); }
+
+.btn-verify:hover {
+    background: #1976D2 !important;
+    transform: scale(1.02);
+}

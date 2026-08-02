@@ -6,6 +6,8 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.cloud.firestore.Firestore;
 import com.kodewala.academy.model.Student;
+import com.kodewala.academy.model.Placement;
+import com.kodewala.academy.model.Batch;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -64,6 +66,7 @@ public class FirebaseService {
             s.setPaymentMethod(doc.getString("paymentMethod"));
             s.setImageUrl(doc.getString("imageUrl"));
             s.setStatus(doc.getString("status"));
+            s.setPaymentStatus(doc.getString("paymentStatus"));
             s.setZoomLink(doc.getString("zoomLink"));
             s.setZoomRecordingUrl(doc.getString("zoomRecordingUrl"));
             s.setTimestamp(doc.contains("timestamp") ? doc.getLong("timestamp") : 0L);
@@ -74,7 +77,34 @@ public class FirebaseService {
 
     public static void updateStatus(String docId, String newStatus) throws ExecutionException, InterruptedException {
         if (db != null) {
-            db.collection("admissions").document(docId).update("status", newStatus).get();
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("status", newStatus);
+
+            if ("Approved".equals(newStatus)) {
+                // Generate IDs only on Approval
+                ApiFuture<QuerySnapshot> query = db.collection("admissions")
+                        .whereNotEqualTo("studentId", null)
+                        .get();
+                int approvedCount = query.get().size() + 1;
+
+                String studentId = String.format("KA%02d", approvedCount);
+                
+                java.util.Calendar cal = java.util.Calendar.getInstance();
+                String month = new java.text.SimpleDateFormat("MMM").format(cal.getTime()).toUpperCase();
+                String year = new java.text.SimpleDateFormat("yy").format(cal.getTime());
+                String batchId = "KA-BATCH-" + studentId.replace("KA", "") + "-" + month + year;
+
+                updates.put("studentId", studentId);
+                updates.put("batchNumber", batchId);
+            }
+
+            db.collection("admissions").document(docId).update(updates).get();
+        }
+    }
+
+    public static void verifyPayment(String docId, String newPaymentStatus) throws ExecutionException, InterruptedException {
+        if (db != null) {
+            db.collection("admissions").document(docId).update("paymentStatus", newPaymentStatus).get();
         }
     }
 
@@ -92,5 +122,64 @@ public class FirebaseService {
         if (db != null) {
             db.collection("admissions").document(docId).delete().get();
         }
+    }
+
+    // --- Placement Management ---
+    public static void addPlacement(Placement p) throws ExecutionException, InterruptedException {
+        if (db != null) {
+            Map<String, Object> data = new HashMap<>();
+            data.put("name", p.getName());
+            data.put("ctc", p.getCtc());
+            data.put("role", p.getRole());
+            data.put("education", p.getEducation());
+            data.put("imageUrl", p.getImageUrl());
+            data.put("isHighest", p.isHighest());
+            data.put("timestamp", System.currentTimeMillis());
+            db.collection("placements").add(data).get();
+        }
+    }
+
+    public static List<Placement> getAllPlacements() throws ExecutionException, InterruptedException {
+        List<Placement> list = new ArrayList<>();
+        if (db == null) return list;
+        QuerySnapshot qs = db.collection("placements").orderBy("timestamp", com.google.cloud.firestore.Query.Direction.DESCENDING).get().get();
+        for (QueryDocumentSnapshot doc : qs.getDocuments()) {
+            Placement p = doc.toObject(Placement.class);
+            p.setId(doc.getId());
+            list.add(p);
+        }
+        return list;
+    }
+
+    public static void deletePlacement(String id) throws ExecutionException, InterruptedException {
+        if (db != null) db.collection("placements").document(id).delete().get();
+    }
+
+    // --- Batch Management ---
+    public static void addBatch(Batch b) throws ExecutionException, InterruptedException {
+        if (db != null) {
+            Map<String, Object> data = new HashMap<>();
+            data.put("batchName", b.getBatchName());
+            data.put("zoomLink", b.getZoomLink());
+            data.put("description", b.getDescription());
+            data.put("isActive", true);
+            db.collection("batches").add(data).get();
+        }
+    }
+
+    public static List<Batch> getAllBatches() throws ExecutionException, InterruptedException {
+        List<Batch> list = new ArrayList<>();
+        if (db == null) return list;
+        QuerySnapshot qs = db.collection("batches").get().get();
+        for (QueryDocumentSnapshot doc : qs.getDocuments()) {
+            Batch b = doc.toObject(Batch.class);
+            b.setId(doc.getId());
+            list.add(b);
+        }
+        return list;
+    }
+
+    public static void deleteBatch(String id) throws ExecutionException, InterruptedException {
+        if (db != null) db.collection("batches").document(id).delete().get();
     }
 }
