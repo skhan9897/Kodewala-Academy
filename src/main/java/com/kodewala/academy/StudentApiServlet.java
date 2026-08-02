@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import com.kodewala.academy.model.Student;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.cloud.firestore.Firestore;
+
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.api.core.ApiFuture;
@@ -23,7 +25,7 @@ import java.util.Map;
 
 @WebServlet("/api/register")
 public class StudentApiServlet extends HttpServlet {
-    
+
     private final Gson gson = new Gson();
 
     @Override
@@ -32,20 +34,20 @@ public class StudentApiServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        
+
         try {
             // Read JSON from Request Body
             BufferedReader reader = request.getReader();
             Student student = gson.fromJson(reader, Student.class);
-            
+
             // Save to Firebase via Server
             Firestore db = FirestoreClient.getFirestore();
-            
+
             Map<String, Object> data = new HashMap<>();
             data.put("name", student.getName());
             data.put("phone", student.getPhone());
@@ -60,9 +62,9 @@ public class StudentApiServlet extends HttpServlet {
             data.put("timestamp", System.currentTimeMillis());
 
             db.collection("admissions").add(data).get();
-            
+
             response.getWriter().write("{\"status\":\"success\", \"message\":\"Registered successfully via API\"}");
-            
+
         } catch (Exception e) {
             response.setStatus(500);
             response.getWriter().write("{\"status\":\"error\", \"message\":\"" + e.getMessage() + "\"}");

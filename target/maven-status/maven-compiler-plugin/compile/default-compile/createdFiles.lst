@@ -5,6 +5,7 @@ com\kodewala\academy\DBConnection.class
 com\kodewala\academy\model\Batch.class
 com\kodewala\academy\FirebaseService.class
 com\kodewala\academy\PlacementsApiServlet.class
+com\bank\kodewalaacademy\KodewalaAcademyApplication.class
 com\kodewala\academy\DatabaseSetup.class
 com\kodewala\academy\StudentApiServlet.class
 com\kodewala\academy\model\Student.class

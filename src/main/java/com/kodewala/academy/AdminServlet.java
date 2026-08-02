@@ -3,6 +3,7 @@ package com.kodewala.academy;
 import com.kodewala.academy.model.Student;
 import com.kodewala.academy.model.Placement;
 import com.kodewala.academy.model.Batch;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,15 +15,15 @@ import java.util.List;
 
 @WebServlet("/admin")
 public class AdminServlet extends HttpServlet {
-    
+
     @Override
     public void init() throws ServletException {
         FirebaseService.initialize(getServletContext());
         DatabaseSetup.createTables(); // Creates the MySQL table if it doesn't exist
     }
-    
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
@@ -34,7 +35,7 @@ public class AdminServlet extends HttpServlet {
             List<Student> students = FirebaseService.getAllStudents();
             List<Placement> placements = FirebaseService.getAllPlacements();
             List<Batch> batches = FirebaseService.getAllBatches();
-            
+
             request.setAttribute("students", students);
             request.setAttribute("placements", placements);
             request.setAttribute("batches", batches);
@@ -47,7 +48,7 @@ public class AdminServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
@@ -57,7 +58,7 @@ public class AdminServlet extends HttpServlet {
 
         String action = request.getParameter("action");
         String docId = request.getParameter("docId");
-        
+
         try {
             if ("logout".equals(action)) {
                 session.invalidate();

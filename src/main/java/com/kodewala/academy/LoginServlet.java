@@ -10,13 +10,13 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    
+
     // Correct Credentials
     private static final String AUTH_ID = "Kodewala1234";
     private static final String AUTH_PASS = "Admin123";
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("user") != null) {
@@ -27,9 +27,9 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         // These names MUST match the 'name' attribute in login.jsp
         String inputId = request.getParameter("adminId");
         String inputPass = request.getParameter("password");

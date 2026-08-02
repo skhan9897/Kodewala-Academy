@@ -13,7 +13,7 @@ public class DBConnection {
     private static final String DB_NAME = "kodwalaAcademy-db";
     private static final String USER = "YOUR_CLEVER_CLOUD_USER";
     private static final String PASSWORD = "YOUR_CLEVER_CLOUD_PASSWORD";
-    private static final String PORT = "3306"; 
+    private static final String PORT = "3306";
 
     private static final String URL = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME + "?useSSL=true&serverTimezone=UTC";
 
@@ -32,7 +32,7 @@ public class DBConnection {
         }
         return connection;
     }
-    
+
     public static void closeConnection() {
         try {
             if (connection != null && !connection.isClosed()) {

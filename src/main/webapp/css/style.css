@@ -16,7 +16,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -76,7 +76,7 @@ body {
     border-radius: 25px;
     padding: 25px;
     margin-bottom: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .btn {
@@ -121,10 +121,25 @@ body {
     text-transform: uppercase;
 }
 
-.status-pending { background: rgba(251, 192, 45, 0.2); color: #FBC02D; }
-.status-approved { background: rgba(76, 175, 80, 0.2); color: #4CAF50; }
-.status-paid { background: rgba(33, 150, 243, 0.2); color: #2196F3; }
-.status-awaiting { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6); }
+.status-pending {
+    background: rgba(251, 192, 45, 0.2);
+    color: #FBC02D;
+}
+
+.status-approved {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+}
+
+.status-paid {
+    background: rgba(33, 150, 243, 0.2);
+    color: #2196F3;
+}
+
+.status-awaiting {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+}
 
 .btn-verify:hover {
     background: #1976D2 !important;

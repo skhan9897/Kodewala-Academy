@@ -28,7 +28,7 @@ public class FirebaseService {
         try {
             if (FirebaseApp.getApps().isEmpty()) {
                 InputStream serviceAccount = context.getResourceAsStream("/WEB-INF/serviceAccountKey.json");
-                
+
                 if (serviceAccount == null) {
                     System.err.println("Firebase Error: serviceAccountKey.json not found in WEB-INF");
                     return;
@@ -53,7 +53,7 @@ public class FirebaseService {
 
         ApiFuture<QuerySnapshot> query = db.collection("admissions").get();
         QuerySnapshot querySnapshot = query.get();
-        
+
         for (QueryDocumentSnapshot doc : querySnapshot.getDocuments()) {
             Student s = new Student();
             s.setId(doc.getId());
@@ -88,7 +88,7 @@ public class FirebaseService {
                 int approvedCount = query.get().size() + 1;
 
                 String studentId = String.format("KA%02d", approvedCount);
-                
+
                 java.util.Calendar cal = java.util.Calendar.getInstance();
                 String month = new java.text.SimpleDateFormat("MMM").format(cal.getTime()).toUpperCase();
                 String year = new java.text.SimpleDateFormat("yy").format(cal.getTime());

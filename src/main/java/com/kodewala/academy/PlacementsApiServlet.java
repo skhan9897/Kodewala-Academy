@@ -27,9 +27,9 @@ public class PlacementsApiServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
@@ -37,7 +37,7 @@ public class PlacementsApiServlet extends HttpServlet {
             Firestore db = FirestoreClient.getFirestore();
             ApiFuture<QuerySnapshot> query = db.collection("placements").get();
             List<Map<String, Object>> placements = new ArrayList<>();
-            
+
             for (QueryDocumentSnapshot document : query.get().getDocuments()) {
                 Map<String, Object> data = document.getData();
                 data.put("id", document.getId());
