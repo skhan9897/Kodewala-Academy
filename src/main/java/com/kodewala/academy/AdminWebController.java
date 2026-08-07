@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin-web")
 public class AdminWebController {
 
-    @GetMapping("/dashboard")
+    @GetMapping("/")
+    public String splash() {
+        return "index"; // Splash Screen
+    }
+
+    @GetMapping("/admin-web/dashboard")
     public String dashboard(Model model) {
         try {
             List<Student> students = FirebaseService.getAllStudents();
@@ -23,7 +27,7 @@ public class AdminWebController {
         }
     }
 
-    @PostMapping("/approve/{id}")
+    @PostMapping("/admin-web/approve/{id}")
     public String approveStudent(@PathVariable String id) {
         try {
             FirebaseService.updateStatus(id, "Approved");
@@ -33,7 +37,7 @@ public class AdminWebController {
         }
     }
 
-    @PostMapping("/reject/{id}")
+    @PostMapping("/admin-web/reject/{id}")
     public String rejectStudent(@PathVariable String id) {
         try {
             FirebaseService.updateStatus(id, "Rejected");

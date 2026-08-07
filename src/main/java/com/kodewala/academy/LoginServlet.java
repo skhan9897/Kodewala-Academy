@@ -19,9 +19,9 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("user") != null) {
-            response.sendRedirect("admin");
+            response.sendRedirect("/admin-web/dashboard");
         } else {
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/templates/login.html").forward(request, response);
         }
     }
 
@@ -38,10 +38,10 @@ public class LoginServlet extends HttpServlet {
         if (AUTH_ID.equalsIgnoreCase(inputId) && AUTH_PASS.equals(inputPass)) {
             HttpSession session = request.getSession(true);
             session.setAttribute("user", AUTH_ID);
-            response.sendRedirect("admin");
+            response.sendRedirect("/admin-web/dashboard");
         } else {
             request.setAttribute("error", "Invalid Admin ID or Password!");
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/templates/login.html").forward(request, response);
         }
     }
 }
