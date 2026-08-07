@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kodewala Academy - Admin Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #1A237E;
+            --dark-blue: #0D1B3E;
+            --yellow: #FBC02D;
+            --white: #ffffff;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--dark-blue), var(--blue));
+            color: var(--white);
+            min-height: 100vh;
+            padding: 40px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            color: white;
+        }
+        .table {
+            color: white;
+            --bs-table-bg: transparent;
+            --bs-table-hover-bg: rgba(255, 255, 255, 0.05);
+        }
+        th { color: var(--yellow); }
+        .btn-approve { background-color: #4CAF50; border: none; color: white; }
+        .btn-reject { background-color: #E53935; border: none; color: white; }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .pending { background: rgba(251, 192, 45, 0.2); color: var(--yellow); }
+        .approved { background: rgba(76, 175, 80, 0.2); color: #4CAF50; }
+        .rejected { background: rgba(229, 57, 53, 0.2); color: #E53935; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 style="color: var(--yellow); font-weight: 800;">Admin Dashboard</h1>
+                <p class="opacity-50">Kodewala Academy Spring Boot Portal</p>
+            </div>
+            <div class="card p-3">
+                <span th:text="${students.size()} + ' Total Applications'">0 Applications</span>
+            </div>
+        </div>
+
+        <div class="card p-4">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Qualification</th>
+                        <th>Payment Plan</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="student : ${students}">
+                        <td style="font-weight: 600;" th:text="${student.name}">Name</td>
+                        <td th:text="${student.phone}">Phone</td>
+                        <td th:text="${student.email}">Email</td>
+                        <td th:text="${student.qualification}">Qual.</td>
+                        <td th:text="${student.paymentMethod}">Plan</td>
+                        <td>
+                            <span th:class="'status-badge ' + ${#strings.toLowerCase(student.status)}"
+                                  th:text="${student.status}">Pending</span>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <form th:action="@{'/admin-portal/approve/' + ${student.id}}" method="post">
+                                    <button type="submit" class="btn btn-sm btn-approve">Approve</button>
+                                </form>
+                                <form th:action="@{'/admin-portal/reject/' + ${student.id}}" method="post">
+                                    <button type="submit" class="btn btn-sm btn-reject">Reject</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

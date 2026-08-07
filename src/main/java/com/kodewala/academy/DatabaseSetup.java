@@ -28,7 +28,7 @@ public class DatabaseSetup {
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Table 'admissions' created successfully in Clever Cloud!");
+            System.out.println("Table 'admissions' created successfully!");
         } catch (Exception e) {
             System.err.println("Error creating table: " + e.getMessage());
             e.printStackTrace();

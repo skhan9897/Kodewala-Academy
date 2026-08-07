@@ -11,7 +11,6 @@ import com.kodewala.academy.model.Batch;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
-import com.google.cloud.firestore.WriteResult;
 
 import javax.servlet.ServletContext;
 import java.io.InputStream;
@@ -76,67 +75,60 @@ public class FirebaseService {
     }
 
     public static void updateStatus(String docId, String newStatus) throws ExecutionException, InterruptedException {
-        if (db != null) {
-            Map<String, Object> updates = new HashMap<>();
-            updates.put("status", newStatus);
+        if (db == null) return;
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("status", newStatus);
 
-            if ("Approved".equals(newStatus)) {
-                // Generate IDs only on Approval
-                ApiFuture<QuerySnapshot> query = db.collection("admissions")
-                        .whereNotEqualTo("studentId", null)
-                        .get();
-                int approvedCount = query.get().size() + 1;
+        if ("Approved".equals(newStatus)) {
+            ApiFuture<QuerySnapshot> query = db.collection("admissions")
+                    .whereNotEqualTo("studentId", null)
+                    .get();
+            int approvedCount = query.get().size() + 1;
 
-                String studentId = String.format("KA%02d", approvedCount);
+            String studentId = String.format("KA%02d", approvedCount);
 
-                java.util.Calendar cal = java.util.Calendar.getInstance();
-                String month = new java.text.SimpleDateFormat("MMM").format(cal.getTime()).toUpperCase();
-                String year = new java.text.SimpleDateFormat("yy").format(cal.getTime());
-                String batchId = "KA-BATCH-" + studentId.replace("KA", "") + "-" + month + year;
+            java.util.Calendar cal = java.util.Calendar.getInstance();
+            String month = new java.text.SimpleDateFormat("MMM").format(cal.getTime()).toUpperCase();
+            String year = new java.text.SimpleDateFormat("yy").format(cal.getTime());
+            String batchId = "KA-BATCH-" + studentId.replace("KA", "") + "-" + month + year;
 
-                updates.put("studentId", studentId);
-                updates.put("batchNumber", batchId);
-            }
-
-            db.collection("admissions").document(docId).update(updates).get();
+            updates.put("studentId", studentId);
+            updates.put("batchNumber", batchId);
         }
+
+        db.collection("admissions").document(docId).update(updates).get();
     }
 
     public static void verifyPayment(String docId, String newPaymentStatus) throws ExecutionException, InterruptedException {
-        if (db != null) {
-            db.collection("admissions").document(docId).update("paymentStatus", newPaymentStatus).get();
-        }
+        if (db == null) return;
+        db.collection("admissions").document(docId).update("paymentStatus", newPaymentStatus).get();
     }
 
     public static void updateZoomDetails(String docId, String zoomLink, String zoomRecordingUrl) throws ExecutionException, InterruptedException {
-        if (db != null) {
-            Map<String, Object> updates = new HashMap<>();
-            updates.put("zoomLink", zoomLink);
-            updates.put("zoomRecordingUrl", zoomRecordingUrl);
-            updates.put("status", "Approved"); // Auto approve when zoom details are provided
-            db.collection("admissions").document(docId).update(updates).get();
-        }
+        if (db == null) return;
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("zoomLink", zoomLink);
+        updates.put("zoomRecordingUrl", zoomRecordingUrl);
+        updates.put("status", "Approved");
+        db.collection("admissions").document(docId).update(updates).get();
     }
 
     public static void deleteStudent(String docId) throws ExecutionException, InterruptedException {
-        if (db != null) {
-            db.collection("admissions").document(docId).delete().get();
-        }
+        if (db == null) return;
+        db.collection("admissions").document(docId).delete().get();
     }
 
-    // --- Placement Management ---
     public static void addPlacement(Placement p) throws ExecutionException, InterruptedException {
-        if (db != null) {
-            Map<String, Object> data = new HashMap<>();
-            data.put("name", p.getName());
-            data.put("ctc", p.getCtc());
-            data.put("role", p.getRole());
-            data.put("education", p.getEducation());
-            data.put("imageUrl", p.getImageUrl());
-            data.put("isHighest", p.isHighest());
-            data.put("timestamp", System.currentTimeMillis());
-            db.collection("placements").add(data).get();
-        }
+        if (db == null) return;
+        Map<String, Object> data = new HashMap<>();
+        data.put("name", p.getName());
+        data.put("ctc", p.getCtc());
+        data.put("role", p.getRole());
+        data.put("education", p.getEducation());
+        data.put("imageUrl", p.getImageUrl());
+        data.put("isHighest", p.isHighest());
+        data.put("timestamp", System.currentTimeMillis());
+        db.collection("placements").add(data).get();
     }
 
     public static List<Placement> getAllPlacements() throws ExecutionException, InterruptedException {
@@ -152,19 +144,18 @@ public class FirebaseService {
     }
 
     public static void deletePlacement(String id) throws ExecutionException, InterruptedException {
-        if (db != null) db.collection("placements").document(id).delete().get();
+        if (db == null) return;
+        db.collection("placements").document(id).delete().get();
     }
 
-    // --- Batch Management ---
     public static void addBatch(Batch b) throws ExecutionException, InterruptedException {
-        if (db != null) {
-            Map<String, Object> data = new HashMap<>();
-            data.put("batchName", b.getBatchName());
-            data.put("zoomLink", b.getZoomLink());
-            data.put("description", b.getDescription());
-            data.put("isActive", true);
-            db.collection("batches").add(data).get();
-        }
+        if (db == null) return;
+        Map<String, Object> data = new HashMap<>();
+        data.put("batchName", b.getBatchName());
+        data.put("zoomLink", b.getZoomLink());
+        data.put("description", b.getDescription());
+        data.put("isActive", true);
+        db.collection("batches").add(data).get();
     }
 
     public static List<Batch> getAllBatches() throws ExecutionException, InterruptedException {
@@ -180,6 +171,7 @@ public class FirebaseService {
     }
 
     public static void deleteBatch(String id) throws ExecutionException, InterruptedException {
-        if (db != null) db.collection("batches").document(id).delete().get();
+        if (db == null) return;
+        db.collection("batches").document(id).delete().get();
     }
 }

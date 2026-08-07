@@ -11,7 +11,6 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    // Correct Credentials
     private static final String AUTH_ID = "Kodewala1234";
     private static final String AUTH_PASS = "Admin123";
 
@@ -30,7 +29,6 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // These names MUST match the 'name' attribute in login.jsp
         String inputId = request.getParameter("adminId");
         String inputPass = request.getParameter("password");
 

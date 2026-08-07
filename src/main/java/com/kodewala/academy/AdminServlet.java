@@ -19,7 +19,6 @@ public class AdminServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         FirebaseService.initialize(getServletContext());
-        DatabaseSetup.createTables(); // Creates the MySQL table if it doesn't exist
     }
 
     @Override

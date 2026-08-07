@@ -2,7 +2,6 @@ package com.kodewala.academy;
 
 import com.google.gson.Gson;
 import com.kodewala.academy.model.Student;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,11 +15,6 @@ public class AdmissionsApiServlet extends HttpServlet {
     private final Gson gson = new Gson();
 
     @Override
-    public void init() throws ServletException {
-        FirebaseService.initialize(getServletContext());
-    }
-
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -32,7 +26,7 @@ public class AdmissionsApiServlet extends HttpServlet {
             response.getWriter().write(gson.toJson(students));
         } catch (Exception e) {
             response.setStatus(500);
-            response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
+            response.getWriter().write("[]");
         }
     }
 }
